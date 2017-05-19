@@ -5,6 +5,10 @@ int yaw_pin = 0;
 int pitch_pin = 0;
 int roll_pin = 0;
 
+//Interrupt pin
+const byte interruptPin = 2;
+volatile byte state = LOW;
+
 // Idle speed
 int motor_startup = 1210;
 
@@ -22,6 +26,13 @@ int pitch_value = 0;
 int roll_value = 0;
 
 
+void ISR(){
+  //write throttle_value to 1000
+
+  //write all other values to 1000
+
+  
+}
 
 void setup() {
   // put your setup code here, to run once:
@@ -29,6 +40,9 @@ void setup() {
   yaw.attach(yaw_pin);
   pitch.attach(pitch_pin);
   roll.attach(roll_pin);
+
+  pinMode(interruptPin, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(interruptPin), ISR, CHANGE);
 
   Serial.begin(9600);
   Serial.println("Setup complete");
@@ -84,4 +98,3 @@ void flight_land(){
   }  
   Serial.println("Landing complete.");
 }
-
