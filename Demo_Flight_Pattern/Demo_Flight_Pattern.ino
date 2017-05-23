@@ -5,7 +5,7 @@ int yaw_pin = 0;
 int pitch_pin = 0;
 int roll_pin = 0;
 
-//Interrupt pin
+//Interrupt pin - Can only be changed to 2 or 3.
 const byte interruptPin = 2;
 volatile byte state = LOW;
 
@@ -25,8 +25,7 @@ int yaw_value = 0;
 int pitch_value = 0;
 int roll_value = 0;
 
-
-void ISR(){
+void interrupt_service(){
   //write throttle_value to 1000
 
   //write all other values to 1000
@@ -35,14 +34,9 @@ void ISR(){
 }
 
 void setup() {
-  // put your setup code here, to run once:
-  throttle.attach(throttle_pin);
-  yaw.attach(yaw_pin);
-  pitch.attach(pitch_pin);
-  roll.attach(roll_pin);
 
   pinMode(interruptPin, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(interruptPin), ISR, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(interruptPin), interrupt_service, CHANGE);
 
   Serial.begin(9600);
   Serial.println("Setup complete");
